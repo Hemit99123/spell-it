@@ -10,8 +10,8 @@ const prisma = new PrismaClient()
 export const options: NextAuthOptions = {
     providers: [
         GoogleProvider({
-            clientId: '331825534839-ev4o7sjou3clv4j5ccl8bkkd5p72edmo.apps.googleusercontent.com',
-            clientSecret: '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'
+            clientId: process.env.GOOGLE_AUTH_CLIENTID || '',
+            clientSecret: process.env.GOOGLE_AUTH_CLIENTSECRET || ''
         })
         
     ],
