@@ -6,7 +6,7 @@ export const authenticate = async () => {
   const session = await getServerSession(options);
 
   if (!session) {
-    const error:any = new Error("authentication failed :(");
+    const error:any = new Error();
     error.statusCode = 401; // Unauthorized status code
     throw error;
   }
@@ -19,10 +19,10 @@ export const authenticateClient = async () => {
 
   const session = await getSession();
 
+
   if (!session) {
     window.location.href = '/signin'
   }
 
   return session;
 };
-

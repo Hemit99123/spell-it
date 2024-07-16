@@ -1,60 +1,68 @@
 'use client'
 
-import React from 'react'
-import {signIn} from 'next-auth/react'
-import TrashifyLogo from './assets/trashify.png'
+import React, { useEffect } from 'react'
+import {getSession, signIn} from 'next-auth/react'
+import SpellItLogo from './assets/spell-it.png'
 import Image from 'next/image'
 
 const page = () => {
 
+  useEffect(() => {
+    const alreadyLoggedIn = async () => {
+      const session = await getSession()
+
+      if (session) {
+        window.location.href = '/'
+      }
+    }
+
+    alreadyLoggedIn()
+  }, [])
+
+  
+
     const handleSignIn = async (event: React.MouseEvent<HTMLButtonElement>) => {
-        event.preventDefault(); // Prevent default behavior if necessary
-        await signIn('google'); // Call the signIn function here, passing any necessary arguments
+        event.preventDefault();
+        await signIn('google');
       };
 
       
   return (
     <div>
-      <div className="h-screen w-screen bg-gray-400">
+      <div className="h-screen w-screen">
         <div className="fixed grid place-items-center backdrop-blur-sm top-0 right-0 left-0 z-50 w-full inset-0 h-modal h-full justify-center items-center">
           <div className="relative container m-auto px-6">
             <div className="m-auto md:w-7/12">
-              <div className="rounded-xl bg-white shadow-xl">
+              <div className="bg-gray-50">
                 <div className="p-8">
                   <div className="space-y-4">
                     <Image
-                      src={TrashifyLogo}
+                      src={SpellItLogo}
                       loading="lazy"
-                      alt='Trashify Logo'
+                      alt='Spell-it Logo'
                       className="w-12 rounded-full"
                     />
-                    <h2 className="mb-8 text-2xl text-cyan-900 font-bold">
-                      log into trashify
+                    <h2 className="mb-8 text-2xl font-bold">
+                      Sign into Spell It!
                     </h2>
                   </div>
                   <div className="mt-10 grid space-y-4">
-                    <button className="group h-12 px-6 border-2 border-gray-300 rounded-full transition duration-300 hover:border-blue-400 focus:bg-blue-50 active:bg-blue-100" onClick={handleSignIn}>
-                      <div className="relative flex items-center space-x-4 justify-center">
-                        <img
-                          src="https://www.svgrepo.com/show/475656/google-color.svg"
-                          className="absolute left-0 w-5"
-                          alt="google logo"
-                        />
-                        <span className="block w-max font-semibold tracking-wide text-gray-700 text-sm transition duration-300 group-hover:text-blue-600 sm:text-base">
-                          continue with google
-                        </span>
-                      </div>
-                    </button>
+                  <button type="button" className="duration-1000 text-black bg-white hover:bg-gray-200 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 h-14 py-2.5 text-center inline-flex items-center me-2 mb-2" onClick={handleSignIn}>
+                    <svg className="h-5 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 19">
+                      <path fillRule="evenodd" d="M8.842 18.083a8.8 8.8 0 0 1-8.65-8.948 8.841 8.841 0 0 1 8.8-8.652h.153a8.464 8.464 0 0 1 5.7 2.257l-2.193 2.038A5.27 5.27 0 0 0 9.09 3.4a5.882 5.882 0 0 0-.2 11.76h.124a5.091 5.091 0 0 0 5.248-4.057L14.3 11H9V8h8.34c.066.543.095 1.09.088 1.636-.086 5.053-3.463 8.449-8.4 8.449l-.186-.002Z" clipRule="evenodd"/>
+                    </svg>
+                    Authenticate with Google
+                  </button>
                   </div>
                   <div className="mt-14 space-y-4 py-3 text-gray-600 text-center">
                     <p className="text-xs">
-                      by proceeding, you agree to our {""}
+                      By proceeding, you agree to our {""}
                       <a href="/privacy-policy/" className="underline">
-                        terms of services
+                        Terms and Conditions
                       </a>
-                      {" "} and confirm you have read our {" "}
+                      {" "} and confirm your acceptance of the developer's use of {" "}
                       <a href="/privacy-policy/" className="underline">
-                        privacy and cookie statement
+                        cookies for authentication purposes
                       </a>
                       .
                     </p>
