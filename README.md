@@ -7,8 +7,7 @@ Documentation for Spell It! open source app
 | Route                         | Methods                   | Description                                      |
 |-------------------------------|---------------------------|--------------------------------------------------|
 | `/api/create`                 | DELETE, GET, POST         | Handles creation and management of resources.    |
-| `/api/auth/[...nextauth]`    | Various (see NextAuth)    | Contains all auth routes provided by NextAuth.   |
-|                               |                           | Excludes `/api/auth/signin` and `/api/auth/signout`, which redirect to signin and signout respectively. |
+| `/api/auth/[...nextauth]`    | Various (see NextAuth)    | Contains all auth routes provided by NextAuth.  Excludes `/api/auth/signin` and `/api/auth/signout`, which redirect to signin and signout respectively. |
 
 ## Client Routes
 
