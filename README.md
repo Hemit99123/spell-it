@@ -1,4 +1,4 @@
-# README FILE
+# Spell IT 🤓
 
 Documentation for Spell It! open source app 
 
