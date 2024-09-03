@@ -65,17 +65,7 @@ const Page = () => {
 
   return (
     <>
-      <h1 className='text-center mt-5 text-3xl font-bold'>Spell It! Dashboard</h1>
-      <div className="flex justify-center my-5">
-        <a href="/create-post" className="text-white bg-black focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center flex items-center">
-          Create a new list
-          <svg className="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
-            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
-          </svg>
-        </a>
-      </div>
-
-      <div className="max-w-screen-xl mx-auto p-16">
+      <div className="mt-5 max-w-screen-xl mx-auto p-16">
         <div className="sm:grid lg:grid-cols-3 sm:grid-cols-2 gap-10">
           {wordList.map((word) => (
             <div
