@@ -1,22 +1,17 @@
-'use client';
+"use client"
 
 import React, { useEffect, useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { authenticateClient } from '../lib/auth';
 
-const CreatePost: React.FC = () => {
+const CreatePost = () => {
     const [title, setTitle] = useState('');
     const [wordList, setWordList] = useState<string[]>([]);
     const [word, setWord] = useState('');
 
-    useEffect(() => {
-        authenticateClient()
-    }, [])
-
     const handleAddWord = () => {
-        if (word) {
-            setWordList([...wordList, word]);
+        if (word.trim()) {
+            setWordList(prevWordList => [...prevWordList, word.trim()]);
             setWord(''); // Clear the input after adding
         }
     };
@@ -29,12 +24,19 @@ const CreatePost: React.FC = () => {
 
     const handlePostWordList = async () => {
         try {
-            const request = new Request("/api/post", {
-                method: "POST",
+            const response = await fetch('/api/post', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
                 body: JSON.stringify({ title, content: wordList }),
             });
-            await fetch(request);
-            toast.success('Posted into the db!');
+
+            if (response.ok) {
+                toast.success('Posted into the db!');
+            } else {
+                toast.error('Failed to post.');
+            }
         } catch (err) {
             toast.error('An error occurred');
             console.error(err);
@@ -45,13 +47,17 @@ const CreatePost: React.FC = () => {
         <div className='flex justify-center items-center mt-7'>
             <div className='w-full max-w-md'>
                 <h1 className='font-bold text-3xl'>Create a new post</h1>
-                <p className='text-sm text-gray-500'>This post will contain all the different words that you want to be tested on!</p>
+                <p className='text-sm text-gray-500'>
+                    This post will contain all the different words that you want to be tested on!
+                </p>
 
                 <div className='flex flex-col mt-4'>
                     <label className='mt-2 text-xs'>Title</label>
                     <input 
+                        value={title}
                         onChange={(e) => setTitle(e.target.value)}
                         className='rounded border border-gray-500 p-2'
+                        placeholder='Enter post title'
                     />
                     <label className='mt-2 text-xs'>Add your words</label>
                     <div className='flex mt-2'>
@@ -59,6 +65,7 @@ const CreatePost: React.FC = () => {
                             value={word}
                             onChange={(e) => setWord(e.target.value)}
                             className='rounded border border-gray-500 w-full p-2'
+                            placeholder='Enter a word'
                         />
                         <button
                             type="button"
@@ -76,16 +83,16 @@ const CreatePost: React.FC = () => {
                 {/* Display added words */}
                 <ul className="mt-4 overflow-auto max-h-64">
                     {wordList.map((w, index) => (
-                        <div key={index} className="flex justify-between items-center border border-gray-400 p-6 rounded-lg font-semibold mb-3">
-                            <li className="text-gray-700">{w}</li>
-                            <svg xmlns="http://www.w3.org/2000/svg" className="fill-current cursor-pointer" onClick={() => handleDeleteWord(index)} width="24" height="24" id="delete">
-                                <g fill="none" fillRule="evenodd" stroke="#4A4A4A">
-                                    <path d="M5.5 7.5V20A1.5 1.5 0 0 0 7 21.5h11a1.5 1.5 0 0 0 1.5-1.5V7.5h-14z"></path>
-                                    <path strokeLinecap="round" d="M8.5 10.41v8.18M12.5 10.41v8.18M16.5 10.41v8.18M9 4.333V3.244C9 2.557 9.627 2 10.4 2h4.2c.773 0 1.4.557 1.4 1.244v1.09"></path>
-                                    <rect width="18" height="3" x="3.5" y="4.5" rx="1.5"></rect>
-                                </g>
-                            </svg>
-                        </div>
+                        <li key={index} className="flex justify-between items-center border border-gray-400 p-6 rounded-lg font-semibold mb-3">
+                            <span className="text-gray-700">{w}</span>
+                            <button
+                                onClick={() => handleDeleteWord(index)}
+                                className="text-red-500 hover:text-red-700 transition-colors"
+                                aria-label={`Delete ${w}`}
+                            >
+                               Delete
+                            </button>
+                        </li>
                     ))}
                 </ul>
 

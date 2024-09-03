@@ -1,18 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import { authenticate } from "../../lib/auth";
-import { PrismaClient } from "@prisma/client";
-import { getServerSession } from "next-auth";
-import { options } from "../auth/[...nextauth]/options";
-
-const prisma = new PrismaClient();
-
+import prisma from "@/lib/prisma";
+import { auth } from "@/lib/auth";
 
 export const GET = async (request: NextRequest) => {
   try {
-
-    await authenticate()
-
-    const session = await getServerSession(options)
+    const session = await auth()
 
     const post = await prisma.post.findMany({
       where: {
@@ -30,12 +22,8 @@ export const GET = async (request: NextRequest) => {
 export const POST = async (request: NextRequest) => {
   try {
 
-    await authenticate();
-
+    const session = await auth()
     const { title, content } = await request.json();
-
-    const session = await getServerSession(options)
-
 
     const post = await prisma.post.create({
       data: {
@@ -55,7 +43,7 @@ export const POST = async (request: NextRequest) => {
 export const DELETE = async (request: NextRequest) => {
   try {
 
-    await authenticate()
+    const session = await auth()
 
     const { id } = await request.json();
 
@@ -66,8 +54,6 @@ export const DELETE = async (request: NextRequest) => {
     if (!post) {
       return NextResponse.json({error: "post does not exist in the db"})
     }
-
-    const session = await getServerSession(options);
 
     if (post.owner !== session?.user?.email) {
       return NextResponse.json({error: "you are not the owner so you cannot delete this post. nice try !!"})

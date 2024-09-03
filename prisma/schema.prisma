@@ -5,6 +5,7 @@ datasource db {
 
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["tracing"]
 }
 
 model User {
@@ -53,6 +54,8 @@ model Session {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([id, userId])
 }
 
 model VerificationToken {
@@ -87,4 +90,6 @@ model Post {
   owner     String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([owner, id])
 }
