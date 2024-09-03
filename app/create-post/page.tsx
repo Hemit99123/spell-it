@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -44,7 +44,7 @@ const CreatePost = () => {
     };
 
     return (
-        <div className='flex justify-center items-center mt-7'>
+        <div className='flex justify-center items-center mt-24'>
             <div className='w-full max-w-md'>
                 <h1 className='font-bold text-3xl'>Create a new post</h1>
                 <p className='text-sm text-gray-500'>
