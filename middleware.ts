@@ -5,14 +5,20 @@ import { auth } from "@/lib/auth"
 // Middleware function
 export const middleware = async (request: NextRequest) => {
   const { pathname } = request.nextUrl
+  const session = await auth();
+
 
   // Apply authentication check only to paths not starting with '/api'
   if (!pathname.startsWith('/api')) {
-    const session = await auth();
 
     if (!session?.user) {
       // Redirect to /signin if not authenticated
       return NextResponse.redirect(new URL('/signin', request.url))
+    }
+  } else {
+    if (!session?.user) {
+      // Return a JSON error as user is in API not client side
+      return NextResponse.json({message: "Not authenticated, go to /signin", error: "no-auth"})
     }
   }
 
