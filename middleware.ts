@@ -4,13 +4,18 @@ import { auth } from "@/lib/auth"
 
 // Middleware function
 export const middleware = async (request: NextRequest) => {
-  // Check for authentication on specific routes
-  const session = await auth();
+  const { pathname } = request.nextUrl
 
-  if (!session?.user) {
-    return NextResponse.json({ success: false, error: "Not authenticated", redirect_url: "/signin" }, { status: 401 });
-  } 
-  
+  // Apply authentication check only to paths not starting with '/api'
+  if (!pathname.startsWith('/api')) {
+    const session = await auth();
+
+    if (!session?.user) {
+      // Redirect to /signin if not authenticated
+      return NextResponse.redirect(new URL('/signin', request.url))
+    }
+  }
+
   return NextResponse.next();
 }
 

@@ -67,7 +67,7 @@ const Page = () => {
     <>
       <div className="mt-5 max-w-screen-xl mx-auto p-16">
         <div className="sm:grid lg:grid-cols-3 sm:grid-cols-2 gap-10">
-          {wordList.map((word) => (
+          {wordList?.map((word) => (
             <div
               key={word.id}
               className="group cursor-pointer hover:bg-black hover:text-white transition duration-300 max-w-sm rounded overflow-hidden shadow-lg mb-8"
