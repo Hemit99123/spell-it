@@ -2,6 +2,10 @@
 
 Documentation for Spell It! open source app 
 
+## What is Spell IT?
+
+Spell It is an app that allows students to study for tests through the active recall method. The tests that our program niches to is spelling exams or spelling "bees" We do this through a Web Speech API (MDN) which blurts words out for a user to spell in a input.
+
 ## API Routes
 
 | Route                         | Methods                   | Description                                      |
