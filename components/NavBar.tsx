@@ -1,22 +1,27 @@
 'use client';
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import Image from 'next/image';
 import SpellItLogo from './assets/spell-it.png';
+import { useRouter } from 'next/navigation';
 
 const NavBar = React.memo(() => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
+  const router = useRouter()
 
   const toggleMenu = useCallback(() => {
     setIsMenuOpen(prev => !prev);
   }, []);
 
+  const redirect = (route: string) => {
+    router.push(route)
+  }
+
   return (
     <nav className="bg-white fixed w-full z-20 top-0 start-0 border-b border-gray-200">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-        <div className="flex items-center space-x-3">
-          <Image loading="lazy" src={SpellItLogo} className="h-12 w-12 rounded-full" alt="SpellIt Logo" />
+        <div className="flex items-center space-x-3 cursor-pointer">
+          <Image loading="lazy" src={SpellItLogo} className="h-12 w-12 rounded-full" alt="SpellIt Logo" onClick={() => redirect("/")} />
           <span className="self-center text-xl font-semibold whitespace-nowrap text-black">Spell It!</span>
         </div>
         <div className="flex md:order-2 space-x-3 items-center">
@@ -52,19 +57,14 @@ const NavBar = React.memo(() => {
         >
           <ul className="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 md:flex-row md:mt-0 md:border-0 md:bg-white">
             <li>
-              <a href="/" className="block py-2 px-3 text-white bg-black rounded md:bg-transparent md:text-black md:p-0" aria-current="page">
-                Home
-              </a>
-            </li>
-            <li>
-              <a href="/about" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-black md:p-0">
+              <div onClick={() => redirect("/about")} className="cursor-pointer block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-black md:p-0">
                 About
-              </a>
+              </div>
             </li>
             <li>
-              <a href="/signout" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-black md:p-0">
+              <div onClick={() => redirect("/signout")} className="cursor-pointer block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-black md:p-0">
                 Signout
-              </a>
+              </div>
             </li>
           </ul>
         </div>
